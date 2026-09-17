@@ -28,9 +28,26 @@
 
     <title>Zeynep & Samed | Nişan Davetiyesi</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- =========================================
+         GOOGLE FONTS
+    ========================================= -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =========================================
+         AOS
+    ========================================= -->
+
+    <link
+        href="https://unpkg.com/aos@2.3.1/dist/aos.css"
+        rel="stylesheet"
+    >
+
 
     <style>
 
@@ -67,14 +84,20 @@
 
         body {
             margin: 0;
+
             font-family: var(--font-metin);
-            background: linear-gradient(
-                180deg,
-                #ffffff 0%,
-                #fcfaf7 100%
-            );
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #ffffff 0%,
+                    #fcfaf7 100%
+                );
+
             color: var(--yazi);
+
             line-height: 1.8;
+
             font-weight: 400;
         }
 
@@ -85,15 +108,35 @@
 
 
         /* =========================================
+           QR GİRİŞİ
+           
+           #ani-yakala ile gelen ziyaretçide
+           zarf ekranını tamamen gizler.
+        ========================================= */
+
+        html.qr-giris .acilis-ekrani {
+            display: none !important;
+        }
+
+
+        html.qr-giris body {
+            overflow: auto;
+        }
+
+
+        /* =========================================
            GİRİŞ VİDEOSU
         ========================================= */
 
         .acilis-ekrani {
             position: fixed;
+
             inset: 0;
+
             z-index: 9999;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
@@ -104,25 +147,30 @@
                 visibility 1.2s ease;
 
             cursor: pointer;
+
             overflow: hidden;
         }
 
 
         .acilis-ekrani.gizli {
             opacity: 0;
+
             visibility: hidden;
+
             pointer-events: none;
         }
 
 
         .zarf-video {
             position: absolute;
+
             inset: 0;
 
             width: 100%;
             height: 100%;
 
             object-fit: cover;
+
             display: block;
         }
 
@@ -137,17 +185,21 @@
             padding: 14px 32px;
 
             border: none;
+
             border-radius: 999px;
 
             background-color: var(--koyu-bordo);
+
             color: white;
 
             text-decoration: none;
 
             font-size: 13px;
+
             font-weight: 500;
 
             letter-spacing: 1.5px;
+
             text-transform: uppercase;
 
             cursor: pointer;
@@ -180,6 +232,7 @@
 
         .buton.seffaf:hover {
             background-color: var(--koyu-bordo);
+
             color: white;
         }
 
@@ -197,9 +250,11 @@
             z-index: 999;
 
             background-color: var(--altin);
+
             color: white;
 
             border: none;
+
             border-radius: 50%;
 
             width: 55px;
@@ -210,7 +265,8 @@
             cursor: pointer;
 
             box-shadow:
-                0 4px 15px rgba(0,0,0,0.15);
+                0 4px 15px
+                rgba(0,0,0,0.15);
 
             transition:
                 transform 0.3s ease,
@@ -218,22 +274,26 @@
                 opacity 1s ease;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
             opacity: 0;
+
             pointer-events: none;
         }
 
 
         .muzik-buton.aktif {
             opacity: 1;
+
             pointer-events: auto;
         }
 
 
         .muzik-buton:hover {
             background-color: var(--koyu-altin);
+
             transform: scale(1.1);
         }
 
@@ -247,6 +307,7 @@
 
             0% {
                 transform: scale(1);
+
                 box-shadow:
                     0 0 0 0
                     rgba(193, 161, 103, 0.6);
@@ -254,6 +315,7 @@
 
             70% {
                 transform: scale(1.05);
+
                 box-shadow:
                     0 0 0 15px
                     rgba(193, 161, 103, 0);
@@ -261,10 +323,12 @@
 
             100% {
                 transform: scale(1);
+
                 box-shadow:
                     0 0 0 0
                     rgba(193, 161, 103, 0);
             }
+
         }
 
 
@@ -280,6 +344,7 @@
             min-height: 100vh;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
@@ -315,6 +380,7 @@
 
         .video-overlay {
             position: absolute;
+
             inset: 0;
 
             background:
@@ -332,6 +398,7 @@
             width: min(1220px, 100%);
 
             display: flex;
+
             flex-direction: column;
 
             align-items: center;
@@ -361,6 +428,7 @@
 
         .isim-zeynep {
             display: inline-block;
+
             transform: translateY(-8px);
         }
 
@@ -433,8 +501,7 @@
 
 
         /* =========================================
-           SAYAÇ BÖLÜMÜ
-           ARTIK İLK SAYFANIN İÇİNDE DEĞİL
+           SAYAÇ
         ========================================= */
 
         .sayac-bolumu {
@@ -1082,6 +1149,37 @@
 
 
     <!-- =========================================
+         QR GİRİŞ KONTROLÜ
+
+         Eğer URL #ani-yakala ile açıldıysa:
+
+         1. Zarf ekranı gösterilmez.
+         2. Sayfa kilidi kaldırılır.
+    ========================================= -->
+
+    <script>
+
+        const qrGiris =
+            window.location.hash === "#ani-yakala";
+
+
+        if (qrGiris) {
+
+            document.documentElement.classList.add(
+                "qr-giris"
+            );
+
+
+            document.body.classList.remove(
+                "kilitli"
+            );
+
+        }
+
+    </script>
+
+
+    <!-- =========================================
          MÜZİK
     ========================================= -->
 
@@ -1097,10 +1195,12 @@
         id="arkaPlanMuzigi"
         loop
     >
+
         <source
             src="muzik.mp3"
             type="audio/mpeg"
         >
+
     </audio>
 
 
@@ -1133,7 +1233,6 @@
 
     <!-- =========================================
          İLK SAYFA
-         SADECE İSİMLER + TARİH + MESAJ
     ========================================= -->
 
     <header
@@ -1201,7 +1300,6 @@
 
     <!-- =========================================
          SAYAÇ
-         İLK SAYFANIN ALTINDA
     ========================================= -->
 
     <section
@@ -1308,7 +1406,6 @@
 
             <div class="program-listesi">
 
-
                 <article
                     class="program-karti"
                     data-aos="fade-up"
@@ -1410,7 +1507,6 @@
 
                 </article>
 
-
             </div>
 
         </div>
@@ -1483,7 +1579,7 @@
 
 
     <!-- =========================================
-         FOTOĞRAF
+         FOTOĞRAF / QR HEDEFİ
     ========================================= -->
 
     <section
@@ -1524,7 +1620,6 @@
                 class="kamera-karti"
                 data-aos="zoom-in"
             >
-
 
                 <img
                     src="images/sizin-gozunuzden.jpg"
@@ -1657,7 +1752,9 @@
     </footer>
 
 
-    <!-- AOS -->
+    <!-- =========================================
+         AOS
+    ========================================= -->
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
@@ -1699,6 +1796,7 @@
 
             appId:
                 "1:824468575238:web:91cd98bcbcf04aa8155f87"
+
         };
 
 
@@ -1873,6 +1971,7 @@
 
 
                 e.target.value = "";
+
             }
 
         }
@@ -1906,12 +2005,22 @@
 
     <script>
 
-        /* AOS */
+        /* =========================================
+           AOS
+        ========================================= */
 
         AOS.init({
             duration: 1000,
             once: true
         });
+
+
+        /* =========================================
+           QR GİRİŞİ
+        ========================================= */
+
+        const qrGiris =
+            window.location.hash === "#ani-yakala";
 
 
         /* =========================================
@@ -1950,11 +2059,23 @@
 
                 } else {
 
-                    muzik.play();
+                    muzik.play()
+                        .then(() => {
 
-                    muzikButonu.classList.add(
-                        "caliyor"
-                    );
+                            muzikButonu.classList.add(
+                                "aktif",
+                                "caliyor"
+                            );
+
+                        })
+                        .catch(() => {
+
+                            console.log(
+                                "Müzik başlatılamadı."
+                            );
+
+                        });
+
                 }
 
 
@@ -1993,122 +2114,203 @@
 
 
         /*
-         * Video önceden yüklenir.
-         * Ancak otomatik oynatılmaz.
+         * QR GİRİŞİ DEĞİLSE
+         * normal zarf sistemi çalışır.
          */
 
-        zarfVideo.load();
+        if (!qrGiris) {
+
+            zarfVideo.load();
 
 
-        function siteyiAc() {
+            function siteyiAc() {
 
-            if (siteAcildi) return;
-
-
-            siteAcildi = true;
+                if (siteAcildi) return;
 
 
-            acilisEkrani.classList.add(
-                "gizli"
+                siteAcildi = true;
+
+
+                acilisEkrani.classList.add(
+                    "gizli"
+                );
+
+
+                document.body.classList.remove(
+                    "kilitli"
+                );
+
+
+                window.scrollTo(
+                    0,
+                    0
+                );
+
+
+                arkaplanVideo
+                    .play()
+                    .catch(() => {
+
+                        console.log(
+                            "Arka plan video oynatılamadı."
+                        );
+
+                    });
+
+            }
+
+
+            acilisEkrani.addEventListener(
+                "click",
+                function () {
+
+                    if (zarfAcildiMi) return;
+
+
+                    zarfAcildiMi = true;
+
+
+                    /*
+                     * MÜZİK
+                     */
+
+                    muzik.play()
+                        .then(() => {
+
+                            muzikButonu.classList.add(
+                                "aktif",
+                                "caliyor"
+                            );
+
+                            caliyorMu = true;
+
+                        })
+                        .catch(() => {
+
+                            console.log(
+                                "Müzik otomatik başlatılamadı."
+                            );
+
+                        });
+
+
+                    /*
+                     * GİRİŞ VİDEOSU
+                     */
+
+                    zarfVideo.play()
+                        .then(() => {
+
+                            console.log(
+                                "Giriş videosu başladı."
+                            );
+
+                        })
+                        .catch((hata) => {
+
+                            console.error(
+                                "Giriş videosu oynatılamadı:",
+                                hata
+                            );
+
+
+                            siteyiAc();
+
+                        });
+
+                }
             );
 
+
+            /*
+             * VİDEO BİTİNCE
+             */
+
+            zarfVideo.addEventListener(
+                "ended",
+                siteyiAc
+            );
+
+
+            /*
+             * VİDEO HATASI
+             */
+
+            zarfVideo.addEventListener(
+                "error",
+                siteyiAc
+            );
+
+        }
+
+
+        /* =========================================
+           QR GİRİŞİ
+           
+           #ani-yakala ile gelindiyse:
+           
+           - Zarf yok
+           - Sayfa kilitli değil
+           - Arka plan videosu çalışır
+           - Direkt fotoğraf bölümüne gider
+        ========================================= */
+
+        if (qrGiris) {
 
             document.body.classList.remove(
                 "kilitli"
             );
 
 
-            window.scrollTo(
-                0,
-                0
-            );
-
+            /*
+             * Arka plan videosunu başlat.
+             */
 
             arkaplanVideo
                 .play()
                 .catch(() => {
 
                     console.log(
-                        "Arka plan video oynatılamadı."
+                        "Arka plan video otomatik oynatılamadı."
                     );
 
                 });
 
+
+            /*
+             * Sayfa tamamen yüklendikten sonra
+             * fotoğraf bölümüne git.
+             */
+
+            window.addEventListener(
+                "load",
+                function () {
+
+                    setTimeout(
+                        function () {
+
+                            const hedef =
+                                document.getElementById(
+                                    "ani-yakala"
+                                );
+
+
+                            if (!hedef) return;
+
+
+                            hedef.scrollIntoView({
+                                behavior: "auto",
+                                block: "start"
+                            });
+
+                        },
+                        100
+                    );
+
+                }
+            );
+
         }
-
-
-        acilisEkrani.addEventListener(
-            "click",
-            function () {
-
-                if (zarfAcildiMi) return;
-
-
-                zarfAcildiMi = true;
-
-
-                /* MÜZİK */
-
-                muzik.play()
-                    .then(() => {
-
-                        muzikButonu.classList.add(
-                            "aktif",
-                            "caliyor"
-                        );
-
-                        caliyorMu = true;
-
-                    })
-                    .catch(() => {
-
-                        console.log(
-                            "Müzik otomatik başlatılamadı."
-                        );
-
-                    });
-
-
-                /* GİRİŞ VİDEOSU */
-
-                zarfVideo.play()
-                    .then(() => {
-
-                        console.log(
-                            "Giriş videosu başladı."
-                        );
-
-                    })
-                    .catch((hata) => {
-
-                        console.error(
-                            "Giriş videosu oynatılamadı:",
-                            hata
-                        );
-
-
-                        siteyiAc();
-
-                    });
-
-            }
-        );
-
-
-        /* VİDEO BİTİNCE */
-
-        zarfVideo.addEventListener(
-            "ended",
-            siteyiAc
-        );
-
-
-        /* VİDEO HATASI */
-
-        zarfVideo.addEventListener(
-            "error",
-            siteyiAc
-        );
 
 
         /* =========================================
@@ -2151,10 +2353,13 @@
                 `;
 
                 return;
+
             }
 
 
-            /* GÜN */
+            /*
+             * GÜN
+             */
 
             document.getElementById(
                 "gun"
@@ -2170,7 +2375,9 @@
                 );
 
 
-            /* SAAT */
+            /*
+             * SAAT
+             */
 
             document.getElementById(
                 "saat"
@@ -2198,7 +2405,9 @@
                 );
 
 
-            /* DAKİKA */
+            /*
+             * DAKİKA
+             */
 
             document.getElementById(
                 "dakika"
@@ -2224,7 +2433,9 @@
                 );
 
 
-            /* SANİYE */
+            /*
+             * SANİYE
+             */
 
             document.getElementById(
                 "saniye"
