@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -31,6 +32,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
 
     <style>
 
@@ -81,6 +83,20 @@
 
         body.kilitli {
             overflow: hidden;
+        }
+
+
+        /* =========================================
+           QR GİRİŞİ
+        ========================================= */
+
+        html.qr-giris .acilis-ekrani {
+            display: none !important;
+        }
+
+
+        html.qr-giris body {
+            overflow: auto;
         }
 
 
@@ -434,7 +450,6 @@
 
         /* =========================================
            SAYAÇ BÖLÜMÜ
-           ARTIK İLK SAYFANIN İÇİNDE DEĞİL
         ========================================= */
 
         .sayac-bolumu {
@@ -1075,6 +1090,45 @@
 
     </style>
 
+
+    <!-- =========================================
+         QR GİRİŞ KONTROLÜ
+         
+         ÖNEMLİ:
+         Burada "const qrGiris" YOK.
+         window.qrGiris kullanıyoruz.
+         
+         Böylece aşağıdaki ana JavaScript ile
+         değişken çakışması yaşanmıyor.
+    ========================================= -->
+
+    <script>
+
+        window.qrGiris =
+            window.location.hash === "#ani-yakala";
+
+
+        if (window.qrGiris) {
+
+            document.documentElement.classList.add(
+                "qr-giris"
+            );
+
+            document.addEventListener(
+                "DOMContentLoaded",
+                function () {
+
+                    document.body.classList.remove(
+                        "kilitli"
+                    );
+
+                }
+            );
+
+        }
+
+    </script>
+
 </head>
 
 
@@ -1097,10 +1151,12 @@
         id="arkaPlanMuzigi"
         loop
     >
+
         <source
             src="muzik.mp3"
             type="audio/mpeg"
         >
+
     </audio>
 
 
@@ -1133,7 +1189,6 @@
 
     <!-- =========================================
          İLK SAYFA
-         SADECE İSİMLER + TARİH + MESAJ
     ========================================= -->
 
     <header
@@ -1201,7 +1256,6 @@
 
     <!-- =========================================
          SAYAÇ
-         İLK SAYFANIN ALTINDA
     ========================================= -->
 
     <section
@@ -1873,6 +1927,7 @@
 
 
                 e.target.value = "";
+
             }
 
         }
@@ -1906,7 +1961,21 @@
 
     <script>
 
-        /* AOS */
+        /* =========================================
+           QR GİRİŞ KONTROLÜ
+
+           Burada tekrar "const qrGiris" tanımlıyoruz.
+           Yukarıdaki script "window.qrGiris" kullandığı
+           için artık çakışma yok.
+        ========================================= */
+
+        const qrGiris =
+            window.qrGiris === true;
+
+
+        /* =========================================
+           AOS
+        ========================================= */
 
         AOS.init({
             duration: 1000,
@@ -1950,11 +2019,22 @@
 
                 } else {
 
-                    muzik.play();
+                    muzik.play()
+                        .then(() => {
 
-                    muzikButonu.classList.add(
-                        "caliyor"
-                    );
+                            muzikButonu.classList.add(
+                                "caliyor"
+                            );
+
+                        })
+                        .catch(() => {
+
+                            console.log(
+                                "Müzik oynatılamadı."
+                            );
+
+                        });
+
                 }
 
 
@@ -1992,123 +2072,227 @@
         let siteAcildi = false;
 
 
-        /*
-         * Video önceden yüklenir.
-         * Ancak otomatik oynatılmaz.
-         */
+        /* =========================================
+           NORMAL GİRİŞ
+           
+           Sadece normal URL'de zarf sistemi aktif.
+        ========================================= */
 
-        zarfVideo.load();
+        if (!qrGiris) {
+
+            /*
+             * Video önceden yüklenir.
+             * Ancak otomatik oynatılmaz.
+             */
+
+            zarfVideo.load();
 
 
-        function siteyiAc() {
+            function siteyiAc() {
 
-            if (siteAcildi) return;
-
-
-            siteAcildi = true;
+                if (siteAcildi) return;
 
 
-            acilisEkrani.classList.add(
-                "gizli"
+                siteAcildi = true;
+
+
+                acilisEkrani.classList.add(
+                    "gizli"
+                );
+
+
+                document.body.classList.remove(
+                    "kilitli"
+                );
+
+
+                window.scrollTo(
+                    0,
+                    0
+                );
+
+
+                arkaplanVideo
+                    .play()
+                    .catch(() => {
+
+                        console.log(
+                            "Arka plan video oynatılamadı."
+                        );
+
+                    });
+
+            }
+
+
+            acilisEkrani.addEventListener(
+                "click",
+                function () {
+
+                    if (zarfAcildiMi) return;
+
+
+                    zarfAcildiMi = true;
+
+
+                    /*
+                     * MÜZİK
+                     */
+
+                    muzik.play()
+                        .then(() => {
+
+                            muzikButonu.classList.add(
+                                "aktif",
+                                "caliyor"
+                            );
+
+                            caliyorMu = true;
+
+                        })
+                        .catch(() => {
+
+                            console.log(
+                                "Müzik otomatik başlatılamadı."
+                            );
+
+                        });
+
+
+                    /*
+                     * GİRİŞ VİDEOSU
+                     */
+
+                    zarfVideo.play()
+                        .then(() => {
+
+                            console.log(
+                                "Giriş videosu başladı."
+                            );
+
+                        })
+                        .catch((hata) => {
+
+                            console.error(
+                                "Giriş videosu oynatılamadı:",
+                                hata
+                            );
+
+
+                            siteyiAc();
+
+                        });
+
+                }
             );
 
+
+            /*
+             * VİDEO BİTİNCE
+             */
+
+            zarfVideo.addEventListener(
+                "ended",
+                siteyiAc
+            );
+
+
+            /*
+             * VİDEO HATASI
+             */
+
+            zarfVideo.addEventListener(
+                "error",
+                siteyiAc
+            );
+
+        }
+
+
+        /* =========================================
+           QR GİRİŞİ
+           
+           QR:
+           https://zeynepvesamed.com.tr/#ani-yakala
+           
+           Bu durumda:
+           - Zarf gösterilmez
+           - Sayfa kilitli olmaz
+           - Arka plan video oynar
+           - Direkt fotoğraf bölümüne gider
+        ========================================= */
+
+        if (qrGiris) {
+
+            /*
+             * Güvenlik için kilidi kaldır.
+             */
 
             document.body.classList.remove(
                 "kilitli"
             );
 
 
-            window.scrollTo(
-                0,
-                0
+            /*
+             * Zarf ekranını tamamen kapat.
+             */
+
+            acilisEkrani.classList.add(
+                "gizli"
             );
 
+
+            /*
+             * Arka plan videosunu oynat.
+             */
 
             arkaplanVideo
                 .play()
                 .catch(() => {
 
                     console.log(
-                        "Arka plan video oynatılamadı."
+                        "Arka plan video otomatik oynatılamadı."
                     );
 
                 });
 
+
+            /*
+             * Sayfa tamamen yüklendikten sonra
+             * fotoğraf bölümüne git.
+             */
+
+            window.addEventListener(
+                "load",
+                function () {
+
+                    setTimeout(
+                        function () {
+
+                            const hedef =
+                                document.getElementById(
+                                    "ani-yakala"
+                                );
+
+
+                            if (!hedef) return;
+
+
+                            window.scrollTo({
+                                top:
+                                    hedef.offsetTop,
+                                behavior:
+                                    "auto"
+                            });
+
+                        },
+                        300
+                    );
+
+                }
+            );
+
         }
-
-
-        acilisEkrani.addEventListener(
-            "click",
-            function () {
-
-                if (zarfAcildiMi) return;
-
-
-                zarfAcildiMi = true;
-
-
-                /* MÜZİK */
-
-                muzik.play()
-                    .then(() => {
-
-                        muzikButonu.classList.add(
-                            "aktif",
-                            "caliyor"
-                        );
-
-                        caliyorMu = true;
-
-                    })
-                    .catch(() => {
-
-                        console.log(
-                            "Müzik otomatik başlatılamadı."
-                        );
-
-                    });
-
-
-                /* GİRİŞ VİDEOSU */
-
-                zarfVideo.play()
-                    .then(() => {
-
-                        console.log(
-                            "Giriş videosu başladı."
-                        );
-
-                    })
-                    .catch((hata) => {
-
-                        console.error(
-                            "Giriş videosu oynatılamadı:",
-                            hata
-                        );
-
-
-                        siteyiAc();
-
-                    });
-
-            }
-        );
-
-
-        /* VİDEO BİTİNCE */
-
-        zarfVideo.addEventListener(
-            "ended",
-            siteyiAc
-        );
-
-
-        /* VİDEO HATASI */
-
-        zarfVideo.addEventListener(
-            "error",
-            siteyiAc
-        );
 
 
         /* =========================================
@@ -2261,3 +2445,4 @@
 
 </body>
 </html>
+```
